@@ -58,6 +58,27 @@ Route::post('register', function (Request $request) {
         ];
         return response()->json($respon, 200);
     }
+    $tokenResult=Str::random(60);
+    $user=User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'password' => bcrypt($request->password),
+        'address' => $request->address,
+        'remember_token'=>$tokenResult
+    ]);
+    $respon = [
+        'status' => 'success',
+        'msg' => 'Login successfully',
+        'errors' => null,
+        'content' => [
+            'status_code' => 200,
+            'access_token' => $tokenResult,
+            'token_type' => 'Bearer',
+            'user' => $user
+        ]
+    ];
+    return response()->json($respon, 200);
+
 });
 
 Route::post('login', function (Request $request) {
