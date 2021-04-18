@@ -3,8 +3,13 @@
 use App\Cat;
 use App\CatPhoto;
 use App\Mating;
+use App\Race;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 // use Illuminate\Routing\Route;
 
@@ -24,62 +29,140 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 //detail kucing
-Route::get('/cat/me/{id}',function($id){
-    return Cat::with(['user'])->find($id);
+Route::get('/cat/me/{user_id}/{id}', function ($user_id, $id) {
+    return Cat::with('race')->find($id);
+});
+
+Route::get('/cat/me/{user_id}', function ($user_id) {
+    return response(Cat::whereUserId($user_id)->with('race')->get());
+});
+
+Route::get('/cat/race', function () {
+    return Race::get(['id', 'title']);
+});
+
+Route::post('register',function (Request $request){
+    $validate = \Validator::make($request->all(), [
+        'name'=>'required',
+        'email' => 'required',
+        'password' => 'required',
+        'address' => 'required',
+    ]);
+        if ($validate->fails()) {
+            $respon = [
+                'status' => 'error',
+                'msg' => 'Validator error',
+                'errors' => $validate->errors(),
+                'content' => null,
+            ];
+            return response()->json($respon, 200);
+        }
+});
+
+Route::post('login', function (Request $request) {
+    $validate = \Validator::make($request->all(), [
+        'email' => 'required',
+        'password' => 'required',
+    ]);
+
+    if ($validate->fails()) {
+        $respon = [
+            'status' => 'error',
+            'msg' => 'harap isi email dan password',
+            'errors' => $validate->errors(),
+            'content' => null,
+        ];
+        return response()->json($respon, 400);
+    }
+
+    $user = User::where('email', $request->email)->first();
+    if ($user==null){
+        $respon = [
+            'status' => 'yang bener woi',
+            'msg' => 'email tidak ditemukan',
+            'errors' => 'email is not register',
+            'content' => null
+        ];
+        return response()->json($respon, 200);
+    }
+    if (!\Hash::check($request->password, $user->password, [])) {
+        $respon = [
+            'status' => 'failed',
+            'msg' => 'password anda salah',
+            'errors' => 'wrong password',
+            'content' => null
+        ];
+        return response()->json($respon, 200);
+    }
+    $user->setRememberToken($token = Str::random(60));
+//    $this->provider->updateRememberToken($user, $token);
+    $tokenResult = $user->remember_token;
+    $respon = [
+        'status' => 'success',
+        'msg' => 'Login successfully',
+        'errors' => null,
+        'content' => [
+            'status_code' => 200,
+            'access_token' => $tokenResult,
+            'token_type' => 'Bearer',
+            'user'=>$user
+        ]
+    ];
+    return response()->json($respon, 200);
 });
 
 //kucing disukai
 Route::get('/cat/me/{id}/loved', function ($id) {
-    return Mating::with('cat_2')->where('status','=','1')
-    ->where('cat_id_1','=',$id)
-    ->get();
+    return Mating::with('cat_2')->where('status', '=', '1')
+        ->where('cat_id_1', '=', $id)
+        ->get();
 });
 
 //kucing dinikai
 Route::get('/cat/me/{id}/maried', function ($id) {
-    return Mating::with('cat_1','cat_2')->where('status','=','1')
-    ->where(function ($q) use ($id) {
-        return $q->where('cat_id_1','=',$id)->orWhere('cat_id_2','=',$id);
-    })
-    ->get();
+    return Mating::with('cat_1', 'cat_2')->where('status', '=', '1')
+        ->where(function ($q) use ($id) {
+            return $q->where('cat_id_1', '=', $id)->orWhere('cat_id_2', '=', $id);
+        })
+        ->get();
 });
 //buat kucing
 Route::post('cat', function (Request $request) {
-    $cat=Cat::create([
-        'name'=>$request->name,
-        'user_id'=>$request->user_id,
-        'race_id'=>$request->race_id,
-        'status'=>$request->status,
-        'weight'=>$request->weight,
-        'birth'=>$request->birth,
-        'vaccine'=>$request->vaccine,
-        'cat_photo_1'=>$request->cat_photo_1,
-        'cat_photo_2'=>$request->cat_photo_2,
-        'cat_photo_3'=>$request->cat_photo_3,
-        'cat_photo_4'=>$request->cat_photo_4,
-        'cat_photo_5'=>$request->cat_photo_5,
+    $cat = Cat::create([
+        'name' => $request->name,
+        'user_id' => $request->user_id,
+        'race_id' => $request->race_id,
+        'status' => $request->status,
+        'weight' => $request->weight,
+        'birth' => $request->birth,
+        'vaccine' => $request->vaccine,
+        'cat_photo_1' => $request->cat_photo_1,
+        'cat_photo_2' => $request->cat_photo_2,
+        'cat_photo_3' => $request->cat_photo_3,
+        'cat_photo_4' => $request->cat_photo_4,
+        'cat_photo_5' => $request->cat_photo_5,
     ]);
 });
-Route::post('/cat/edit',function(Request $request){
+Route::post('/cat/edit', function (Request $request) {
     Cat::find($request->user_id)->update([
-        'name'=>$request->name,
-        'race_id'=>$request->race_id,
-        'status'=>$request->status,
-        'weight'=>$request->weight,
-        'birth'=>$request->birth,
-        'vaccine'=>$request->vaccine,
-        'cat_photo_1'=>$request->cat_photo_1,
-        'cat_photo_2'=>$request->cat_photo_2,
-        'cat_photo_3'=>$request->cat_photo_3,
-        'cat_photo_4'=>$request->cat_photo_4,
-        'cat_photo_5'=>$request->cat_photo_5,
+        'name' => $request->name,
+        'race_id' => $request->race_id,
+        'status' => $request->status,
+        'weight' => $request->weight,
+        'birth' => $request->birth,
+        'vaccine' => $request->vaccine,
+        'cat_photo_1' => $request->cat_photo_1,
+        'cat_photo_2' => $request->cat_photo_2,
+        'cat_photo_3' => $request->cat_photo_3,
+        'cat_photo_4' => $request->cat_photo_4,
+        'cat_photo_5' => $request->cat_photo_5,
     ]);
     return true;
 });
 
 
-Route::post('/cat/search',function(Request $request){
-    $query="SELECT
+Route::post('/cat/search', function (Request $request) {
+    $query = "SELECT
     ( 6371 * acos( cos( radians(37) )
                   * cos( radians( users.latitude ) )
                   * cos( radians( users.longitude ) - radians(-122) )
@@ -87,25 +170,35 @@ Route::post('/cat/search',function(Request $request){
     FROM cats
     LEFT JOIN users ON users.id = cats.user_id
     where cats.status=1";
-    if ($request->age_start != null){
-        $query= $query . "and TIMESTAMPDIFF(month, cats.birth, CURDATE()) >= ". $request->age_start;
+    //        if ($request->age_start != null){
+//        if ($request->age_end != null){
+    if ($request->sex == 1) {
+        //laki
+        $query = $query . "and TIMESTAMPDIFF(month, cats.birth, CURDATE()) >= 12";
+        $query = $query . "and TIMESTAMPDIFF(month, cats.birth, CURDATE()) <= 96";
+    } else {
+        //perempuan
+        $query = $query . "and TIMESTAMPDIFF(month, cats.birth, CURDATE()) >= 6";
+        $query = $query . "and TIMESTAMPDIFF(month, cats.birth, CURDATE()) <= 96";
     }
-    if ($request->age_end != null){
-        $query= $query . "and TIMESTAMPDIFF(month, cats.birth, CURDATE()) <= ". $request->age_end;
+
+//    if($request->weights_start != null){
+//        $query= $query . "and weight >= ".$request->weights_start;
+//    }
+//    if($request->weights_end != null){
+//        $query = $query . "and weight <= ".$request->weights_end;
+//    }
+    if ($request->vaccine != null) {
+        $query = $query . "and vaccine = " . $request->vaccine;
     }
-    if($request->weights_start != null){
-        $query= $query . "and weight >= ".$request->weights_start;
+    if ($request->parasite != null) {
+        $query = $query . "and vaccine = " . $request->vaccine;
+    }//7-90 hari
+    if ($request->race != null) {
+        $query = $query . "and race_id = " . $request->race;
     }
-    if($request->weights_end != null){
-        $query = $query . "and weight <= ".$request->weights_end;
-    }
-    if($request->vaccine != null){
-        $query= $query . "and vaccine = ".$request->vaccine;
-    }
-    if($request->race != null){
-        $query= $query . "and race_id = ".$request->race;
-    }
-    $query= $query . " HAVING distance <= ". $request->distance;
+    $query = $query . " HAVING distance <= " . $request->distance;
+    //order by parasite -> umur -> vaccine -> ras
     return response(DB::select(DB::raw($query)));
 });
 
