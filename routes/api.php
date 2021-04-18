@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 // use Illuminate\Routing\Route;
@@ -41,26 +42,26 @@ Route::get('/cat/race', function () {
     return Race::get(['id', 'title']);
 });
 
-Route::post('register',function (Request $request){
-    $validate = \Validator::make($request->all(), [
-        'name'=>'required',
+Route::post('register', function (Request $request) {
+    $validate = Validator::make($request->all(), [
+        'name' => 'required',
         'email' => 'required',
         'password' => 'required',
         'address' => 'required',
     ]);
-        if ($validate->fails()) {
-            $respon = [
-                'status' => 'error',
-                'msg' => 'Validator error',
-                'errors' => $validate->errors(),
-                'content' => null,
-            ];
-            return response()->json($respon, 200);
-        }
+    if ($validate->fails()) {
+        $respon = [
+            'status' => 'error',
+            'msg' => 'Validator error',
+            'errors' => $validate->errors(),
+            'content' => null,
+        ];
+        return response()->json($respon, 200);
+    }
 });
 
 Route::post('login', function (Request $request) {
-    $validate = \Validator::make($request->all(), [
+    $validate = Validator::make($request->all(), [
         'email' => 'required',
         'password' => 'required',
     ]);
@@ -76,7 +77,7 @@ Route::post('login', function (Request $request) {
     }
 
     $user = User::where('email', $request->email)->first();
-    if ($user==null){
+    if ($user == null) {
         $respon = [
             'status' => 'yang bener woi',
             'msg' => 'email tidak ditemukan',
@@ -85,7 +86,7 @@ Route::post('login', function (Request $request) {
         ];
         return response()->json($respon, 200);
     }
-    if (!\Hash::check($request->password, $user->password, [])) {
+    if (!Hash::check($request->password, $user->password, [])) {
         $respon = [
             'status' => 'failed',
             'msg' => 'password anda salah',
@@ -105,7 +106,7 @@ Route::post('login', function (Request $request) {
             'status_code' => 200,
             'access_token' => $tokenResult,
             'token_type' => 'Bearer',
-            'user'=>$user
+            'user' => $user
         ]
     ];
     return response()->json($respon, 200);
@@ -128,19 +129,16 @@ Route::get('/cat/me/{id}/maried', function ($id) {
 });
 //buat kucing
 Route::post('cat', function (Request $request) {
+    $file = $request->file('photo');
+    $filename = Str::slug($request->user_id . '-' . $request->name . date . '-' . ('Hms') . rand(100)) . '.' . $request->file('file')->getClientOriginalExtension();
+    Storage::disk('local')->put('public/cat_photo/' . $filename, $file, 'public');
     $cat = Cat::create([
         'name' => $request->name,
         'user_id' => $request->user_id,
         'race_id' => $request->race_id,
-        'status' => $request->status,
-        'weight' => $request->weight,
         'birth' => $request->birth,
-        'vaccine' => $request->vaccine,
-        'cat_photo_1' => $request->cat_photo_1,
-        'cat_photo_2' => $request->cat_photo_2,
-        'cat_photo_3' => $request->cat_photo_3,
-        'cat_photo_4' => $request->cat_photo_4,
-        'cat_photo_5' => $request->cat_photo_5,
+        'sex' => $request->sex,
+        'photo' => 'cat_photo/' . $filename
     ]);
 });
 Route::post('/cat/edit', function (Request $request) {

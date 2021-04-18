@@ -18,14 +18,13 @@ class CreateCatsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('race_id');
             $table->string('name');
-            $table->integer('status');
             $table->date('birth');
-            $table->integer('vaccine');
-            $table->string('photos_1');
-            $table->string('photos_2')->nullable();
-            $table->string('photos_3')->nullable();
-            $table->string('photos_4')->nullable();
-            $table->string('photos_5')->nullable();
+            $table->integer('sex');
+            $table->string('photos');
+            $table->integer('status')->default(1);
+            $table->integer('vaccine')->default(0);
+            $table->date('last_parasite')->nullable();
+            $table->date('last_vaccine')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')
