@@ -68,7 +68,7 @@ Route::post('register', function (Request $request) {
     ]);
     $respon = [
         'status' => 'success',
-        'msg' => 'Login successfully',
+        'msg' => 'Berhasil mendaftar',
         'errors' => null,
         'content' => [
             'status_code' => 200,
@@ -121,7 +121,7 @@ Route::post('login', function (Request $request) {
     $tokenResult = $user->remember_token;
     $respon = [
         'status' => 'success',
-        'msg' => 'Login successfully',
+        'msg' => 'Berhasil masuk',
         'errors' => null,
         'content' => [
             'status_code' => 200,
@@ -151,7 +151,7 @@ Route::get('/cat/me/{id}/maried', function ($id) {
 //buat kucing
 Route::post('cat', function (Request $request) {
     $file = $request->file('photo');
-    $filename = Str::slug($request->user_id . '-' . $request->name . date . '-' . ('Hms') . rand(100)) . '.' . $request->file('file')->getClientOriginalExtension();
+    $filename = Str::slug( $request->name  . '-' . date('Hms') . rand(100)) . '.' . $request->file('file')->getClientOriginalExtension();
     Storage::disk('local')->put('public/cat_photo/' . $filename, $file, 'public');
     $cat = Cat::create([
         'name' => $request->name,
@@ -161,22 +161,73 @@ Route::post('cat', function (Request $request) {
         'sex' => $request->sex,
         'photo' => 'cat_photo/' . $filename
     ]);
+    $respon = [
+        'status' => 'success',
+        'msg' => 'Berhasil menambahkan kucing',
+        'errors' => null,
+    ];
+    return response()->json($respon, 200);
+
 });
 Route::post('/cat/edit', function (Request $request) {
-    Cat::find($request->user_id)->update([
+    Cat::find($request->cat_id)->update([
         'name' => $request->name,
         'race_id' => $request->race_id,
-        'status' => $request->status,
-        'weight' => $request->weight,
         'birth' => $request->birth,
         'vaccine' => $request->vaccine,
-        'cat_photo_1' => $request->cat_photo_1,
-        'cat_photo_2' => $request->cat_photo_2,
-        'cat_photo_3' => $request->cat_photo_3,
-        'cat_photo_4' => $request->cat_photo_4,
-        'cat_photo_5' => $request->cat_photo_5,
+        'last_parasite' => $request->last_parasite,
+        'last_vaccine' => $request->last_vaccine,
+        'sex' => $request->sex,
     ]);
-    return true;
+    $respon = [
+        'status' => 'success',
+        'msg' => 'Berhasil mengubah kucing',
+        'errors' => null,
+    ];
+    return response()->json($respon, 200);
+});
+
+Route::post('/cat/edit/status',function (Request $request){
+    Cat::find($request->cat_id)->update([
+       'status'=>$request->status
+    ]);
+    $respon = [
+        'status' => 'success',
+        'msg' => 'Berhasil mengubah status kucing',
+        'errors' => null,
+    ];
+    return response()->json($respon, 200);
+});
+
+Route::post('/cat/edit/main-photo',function (Request $request){
+    $cat=Cat::find($request->cat_id);
+    Storage::disk('local')->delete('public/' . $cat->photo);
+    $file = $request->file('photo');
+    $filename = Str::slug($request->user_id . '-' . $request->name . date . '-' . ('Hms') . rand(100)) . '.' . $request->file('file')->getClientOriginalExtension();
+    Storage::disk('local')->put('public/cat_photo/' . $filename, $file, 'public');
+    $cat->update([
+        'photo' => 'cat_photo/' . $filename
+    ]);
+    $respon = [
+        'status' => 'success',
+        'msg' => 'Berhasil mengubah foto kucing',
+        'errors' => null,
+    ];
+    return response()->json($respon, 200);
+});
+
+Route::post('/cat/remove/sekunder-photo',function (Request $request){
+    Storage::disk('local')->delete('public/' . $request->path_photo);
+});
+
+Route::post('/cat/add/sekunder-photo',function (Request $request){
+    $file = $request->file('photo');
+    $filename = Str::slug( $request->cat_id  . '-' . date('Hms') . rand(100)) . '.' . $request->file('file')->getClientOriginalExtension();
+    Storage::disk('local')->put('public/cat_photo/' . $filename, $file, 'public');
+    CatPhoto::create([
+        'cat_id'=>$request->cat_id,
+        'path'=>$filename
+    ]);
 });
 
 

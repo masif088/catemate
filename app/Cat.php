@@ -11,18 +11,17 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property int $status
  * @property string $birth
+ * @property int $vaccine
+ * @property string $last_parasite
  * @property string $last_vaccine
- * @property string $photos_1
- * @property string $photos_2
- * @property string $photos_3
- * @property string $photos_4
- * @property string $photos_5
+ * @property int $sex
+ * @property string $photo
  * @property string $created_at
  * @property string $updated_at
  * @property Race $race
  * @property User $user
- * @property Mating[] $matings
- * @property Mating[] $matings
+ * @property Mating[] $matings1
+ * @property Mating[] $matings2
  */
 class Cat extends Model
 {
@@ -36,7 +35,7 @@ class Cat extends Model
     /**
      * @var array
      */
-    protected $fillable = ['user_id', 'race_id', 'name', 'status', 'birth', 'last_vaccine', 'photos_1', 'photos_2', 'photos_3', 'photos_4', 'photos_5', 'created_at', 'updated_at'];
+    protected $fillable = ['user_id', 'race_id', 'name', 'status', 'birth', 'vaccine', 'last_parasite', 'last_vaccine', 'sex', 'photo', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -57,7 +56,7 @@ class Cat extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function matings_1()
+    public function matings1()
     {
         return $this->hasMany('App\Mating', 'cat_id_1');
     }
@@ -65,7 +64,7 @@ class Cat extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function matings_2()
+    public function matings2()
     {
         return $this->hasMany('App\Mating', 'cat_id_2');
     }
