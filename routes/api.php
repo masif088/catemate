@@ -172,11 +172,13 @@ Route::post('cat', function (Request $request) {
     } catch (\Illuminate\Database\QueryException $exception) {
         // You can check get the details of the error using `errorInfo`:
         $errorInfo = $exception->errorInfo;
+        \App\Log::creat(["log"=>$errorInfo]);
         $respon = [
             'status' => 'success',
             'msg' => $errorInfo,
             'errors' => null,
         ];
+
         return response()->json($respon, 200);
     }
     $respon = [
