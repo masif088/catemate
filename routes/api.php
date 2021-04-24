@@ -150,24 +150,37 @@ Route::get('/cat/me/{id}/maried', function ($id) {
 });
 //buat kucing
 Route::post('cat', function (Request $request) {
-    $file = $request->file('photo');
-    $filename = Str::slug( $request->name  . '-' . date('Hms') . rand(100)) . '.' . $request->file('file')->getClientOriginalExtension();
-    Storage::disk('local')->put('public/cat_photo/' . $filename, $file, 'public');
-    $cat = Cat::create([
-        'name' => $request->name,
-        'user_id' => $request->user_id,
-        'race_id' => $request->race_id,
-        'birth' => $request->birth,
-        'sex' => $request->sex,
-        'photo' => 'cat_photo/' . $filename
-    ]);
     $respon = [
         'status' => 'success',
         'msg' => 'Berhasil menambahkan kucing',
         'errors' => null,
     ];
     return response()->json($respon, 200);
-
+//    $file = $request->file('photo');
+//    $filename = Str::slug( $request->name  . '-' . date('Hms') . rand(100)) . '.' . $request->file('file')->getClientOriginalExtension();
+//    Storage::disk('local')->put('public/cat_photo/' . $filename, $file, 'public');
+//    $cat = Cat::create([
+//        'name' => $request->name,
+//        'user_id' => $request->user_id,
+//        'race_id' => $request->race_id,
+//        'birth' => $request->birth,
+//        'sex' => $request->sex,
+//        'photo' => 'cat_photo/' . $filename
+//    ]);
+//    $respon = [
+//        'status' => 'success',
+//        'msg' => 'Berhasil menambahkan kucing',
+//        'errors' => null,
+//    ];
+//    return response()->json($respon, 200);
+});
+Route::get('/asdasd',function (){
+    $respon = [
+        'status' => 'success',
+        'msg' => 'Berhasil menambahkan kucing',
+        'errors' => null,
+    ];
+    return response()->json($respon, 200);
 });
 Route::post('/cat/edit', function (Request $request) {
     Cat::find($request->cat_id)->update([
