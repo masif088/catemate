@@ -160,6 +160,7 @@ Route::post('cat', function (Request $request) {
     $file = $request->file('file');
     $filename = Str::slug( $request->name  . '-' . date('Hms') ) . '.' . $request->file('file')->getClientOriginalExtension();
     Storage::disk('local')->put('public/cat_photo/' . $filename, file_get_contents($file));
+    try {
     $cat = Cat::create([
         'name' => $request->name,
         'user_id' => $request->user_id,
@@ -168,6 +169,16 @@ Route::post('cat', function (Request $request) {
         'sex' => $request->sex,
         'photo' => 'cat_photo/' . $filename
     ]);
+    } catch (\Illuminate\Database\QueryException $exception) {
+        // You can check get the details of the error using `errorInfo`:
+        $errorInfo = $exception->errorInfo;
+        $respon = [
+            'status' => 'success',
+            'msg' => $errorInfo,
+            'errors' => null,
+        ];
+        return response()->json($respon, 200);
+    }
     $respon = [
         'status' => 'success',
         'msg' => 'Berhasil menambahkan kucing',
