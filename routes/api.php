@@ -159,7 +159,7 @@ Route::post('cat', function (Request $request) {
 //    return response()->json($respon, 200);
     $file = $request->file('file');
     $filename = Str::slug( $request->name  . '-' . date('Hms') ) . '.' . $request->file('file')->getClientOriginalExtension();
-    Storage::disk('local')->put('public/cat_photo/' . $filename, $file, 'public');
+    Storage::disk('local')->put('public/cat_photo/' . $filename, file_get_contents($file));
     $cat = Cat::create([
         'name' => $request->name,
         'user_id' => $request->user_id,
