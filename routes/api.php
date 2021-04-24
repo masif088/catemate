@@ -166,7 +166,7 @@ Route::post('cat', function (Request $request) {
         'race_id' => $request->race_id,
         'birth' => $request->birth,
         'sex' => $request->sex,
-//        'photo' => 'cat_photo/' . $filename
+        'photo' => 'cat_photo/' . $filename
     ]);
     $respon = [
         'status' => 'success',
