@@ -86,15 +86,16 @@ class AuthController extends Controller
             ];
             return response()->json($response, 200);
         }
-        $user->setRememberToken($token = Str::random(60));
-        $tokenResult = $user->remember_token;
+        $token = Str::random(60);
+        $user->update(['remember_token'=>$token]);
+//        $tokenResult = $user->remember_token;
         $respon = [
             'status' => 'success',
             'msg' => 'Berhasil masuk',
             'errors' => null,
             'content' => [
                 'status_code' => 200,
-                'access_token' => $tokenResult,
+                'access_token' => $token,
                 'token_type' => 'Bearer',
                 'user' => $user
             ]
