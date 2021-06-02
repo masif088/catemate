@@ -20,7 +20,17 @@ class DatabaseSeeder extends Seeder
         \App\User::create([
             'name'=>'dita',
             'email'=>'a@a',
+            'latitude'=>'-8.1651576',
+            'longitude'=>'113.7142243',
             'password'=>bcrypt('a')
+        ]);
+
+        \App\User::create([
+            'name'=>'asif',
+            'email'=>'b@b',
+            'latitude'=>'-8.1605965',
+            'longitude'=>'113.7178461',
+            'password'=>bcrypt('b')
         ]);
 
     }

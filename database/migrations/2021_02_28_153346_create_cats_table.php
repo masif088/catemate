@@ -20,7 +20,7 @@ class CreateCatsTable extends Migration
             $table->string('name');
             $table->date('birth');
             $table->integer('sex');
-            $table->string('photos');
+            $table->string('photo');
             $table->integer('status')->default(1);
             $table->integer('vaccine')->default(0);
             $table->date('last_parasite')->nullable();
