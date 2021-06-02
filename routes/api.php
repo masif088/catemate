@@ -35,8 +35,7 @@ Route::post('check/login','Api\AuthController@checkLogin');
 Route::post('logout','Api\AuthController@logout');
 
 Route::get('cat/race','Api\CatController@catRace');
-Route::get('cat/me/{user}/{cat}','Api\CatController@catMeDetail');
-Route::get('cat/me/{user}','Api\CatController@catMe');
+
 Route::post('cat/store','Api\CatController@catStore');
 Route::post('cat/update','Api\CatController@catUpdate');
 Route::post('cat/update/status','Api\CatController@catUpdateStatus');
@@ -47,3 +46,5 @@ Route::post('cat/add/photo','Api\CatController@catAddPhoto');
 Route::get('cat/me/love/{cat}','Api\MateController@catLove');
 Route::get('cat/me/married/{cat}','Api\MateController@catMarried');
 Route::post('cat/me/search','Api\MateController@catSearch');
+Route::get('cat/me/{user}/{cat}','Api\CatController@catMeDetail');
+Route::get('cat/me/{user}','Api\CatController@catMe');

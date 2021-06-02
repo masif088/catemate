@@ -22,7 +22,7 @@ class CatController extends Controller
 
     public function catMe($user_id)
     {
-        return Cat::whereUserId($user_id)->with('race')->all();
+        return Cat::whereUserId($user_id)->with('race')->get();
     }
 
     public function catRace()
