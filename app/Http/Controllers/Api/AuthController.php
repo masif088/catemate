@@ -95,7 +95,7 @@ class AuthController extends Controller
             'errors' => null,
             'content' => [
                 'status_code' => 200,
-                'access_token' => $token,
+                'access_token' => $user->remember_token,
                 'token_type' => 'Bearer',
                 'user' => $user
             ]
