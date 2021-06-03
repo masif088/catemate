@@ -28,7 +28,7 @@ class MateController extends Controller
                     ( 6371 * acos( cos( radians($user->latitude) )
                     * cos( radians( users.latitude ) )
                     * cos( radians( users.longitude ) - radians($user->longitude) )
-                    + sin( radians($user->latitude) ) * sin(radians(users.latitude)) ) AS distance
+                    + sin( radians($user->latitude) ) * sin(radians(users.latitude)))) AS distance
                     FROM cats
                     LEFT JOIN users ON users.id = cats.user_id
                     LEFT JOIN races ON races.id = cats.race_id
