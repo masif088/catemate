@@ -73,16 +73,16 @@ class MateController extends Controller
 //            $query = $query . " and vaccine = " . $request->vaccine;
 //        }
 //        if ($request->parasite != null) {
-            $query = $query . " and TIMESTAMPDIFF(month, cats.last_parasite, CURDATE()) >= 7";
-            $query = $query . " and TIMESTAMPDIFF(month, cats.last_parasite, CURDATE()) <= 90";
+            $query = $query . " and TIMESTAMPDIFF(day, cats.last_parasite, CURDATE()) >= 7";
+            $query = $query . " and TIMESTAMPDIFF(day, cats.last_parasite, CURDATE()) <= 90";
 //        }//7-90 hari
 //        if ($request->race != null) {
 //            $query = $query . "and race_id = " . $request->race;
 //        }
         $query = $query . " having distance <= " . $request->distance;
-        if ($request->race != null) {
+//        if ($request->race != null) {
             $query=$query." ORDER BY FIELD(race_id, $request->race) DESC";
-        }
+//        }
         $query=$query." ,cats.last_parasite, cats.birth,vaccine  DESC";
 //        return $query;
 //        order by parasite -> umur -> vaccine ->
