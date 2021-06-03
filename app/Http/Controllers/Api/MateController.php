@@ -85,11 +85,15 @@ class MateController extends Controller
     {
         $user = User::find($request->user_id);
 //        return $request;
+        //                    ( 6371 * acos( cos( radians($user->latitude) )
+//                    * cos( radians( users.latitude ) )
+//                    * cos( radians( users.longitude ) - radians($user->longitude) )//Y
+//                    + sin( radians($user->latitude) ) * sin(radians(users.latitude)))) AS distance
         $query = "SELECT  users.id as user_id,cats.id,cats.name,cats.birth,cats.photo,races.title as race,
-                    ( 6371 * acos( cos( radians($user->latitude) )
-                    * cos( radians( users.latitude ) )
-                    * cos( radians( users.longitude ) - radians($user->longitude) )
-                    + sin( radians($user->latitude) ) * sin(radians(users.latitude)))) AS distance
+                    (POWER
+                    ((POWER(
+                    ((users.longitude-$user->longitude)*cos(($user->latitude+users.latitude)/2)),2)+POWER((users.latitude-$user->latitude),2)),0.5)
+                    *6371)
                     FROM cats
                     LEFT JOIN users ON users.id = cats.user_id
                     LEFT JOIN races ON races.id = cats.race_id
@@ -120,7 +124,7 @@ class MateController extends Controller
         $query = $query . " ORDER BY FIELD(race_id, $request->race) DESC";
 //        }
         $query = $query . " ,cats.last_parasite, cats.birth,vaccine  DESC";
-//        return $query;
+        return $query;
 //        order by parasite -> umur -> vaccine ->
         return response(DB::select(DB::raw($query)));
     }
