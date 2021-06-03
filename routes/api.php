@@ -45,6 +45,7 @@ Route::post('cat/add/photo','Api\CatController@catAddPhoto');
 
 Route::get('cat/me/love/{cat}','Api\MateController@catLove');
 Route::get('cat/me/married/{cat}','Api\MateController@catMarried');
+Route::post('cat/me/mating','Api\MateController@catMeMating');
 Route::post('cat/me/search','Api\MateController@catSearch');
 Route::get('cat/me/{user}/{cat}','Api\CatController@catMeDetail');
 Route::get('cat/me/{user}','Api\CatController@catMe');
