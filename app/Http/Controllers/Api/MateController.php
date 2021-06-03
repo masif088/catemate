@@ -32,7 +32,7 @@ class MateController extends Controller
                     FROM cats
                     LEFT JOIN users ON users.id = cats.user_id
                     LEFT JOIN races ON races.id = cats.race_id
-                    where cats.status=1 and users.status=1 and users.id!=$request->user_id
+                    where cats.status=1 and users.status=1 and cats.user_id!=$request->user_id
                     ";
 
         if ($request->sex == 1) {
