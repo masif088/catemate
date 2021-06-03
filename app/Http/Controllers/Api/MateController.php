@@ -24,6 +24,7 @@ class MateController extends Controller
     }
     public function catSearch(Request $request){
         $user=User::find($request->user_id);
+        return $user;
         $query = "SELECT cats.id,cats.name,cats.birth,cats.photo,races.title as race,
                     ( 6371 * acos( cos( radians($user->latitude) )
                     * cos( radians( users.latitude ) )
