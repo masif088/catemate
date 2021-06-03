@@ -10,12 +10,15 @@ use Illuminate\Support\Facades\DB;
 
 class MateController extends Controller
 {
-    public function catLove($id){
+    public function catLove($id)
+    {
         return Mating::with('cat_2')->where('status', '=', '1')
             ->where('cat_id_1', '=', $id)
             ->get();
     }
-    public function catMarried($id){
+
+    public function catMarried($id)
+    {
         return Mating::with('cat_1', 'cat_2')->where('status', '=', '2')
             ->where(function ($q) use ($id) {
                 return $q->where('cat_id_1', '=', $id)->orWhere('cat_id_2', '=', $id);
@@ -23,21 +26,29 @@ class MateController extends Controller
             ->get();
     }
 
-    public function catMeMating(Request $request){
-        Mating::create([
-            'cat_id_1'=>$request->cat_id_1,
-            'cat_id_2'=>$request->cat_id_2,
-            'status'=>$request->status
-        ]);
-        $msg="";
-        if ($request->status=4){
-            $msg="berhasil ditambahkan ke favorit";
-        }elseif ($request->status=3){
-            $msg="melakukan chat";
-        }elseif ($request->status=2){
-            $msg="berhasil melakukan mating";
-        }elseif ($request->status=3){
-            $msg="mating dibatalkan";
+    public function catMeMating(Request $request)
+    {
+        $mating = Mating::where("cat_id_1", $request->cat_id_1)->where("cat_id_2", $request->cat_id_2)->first();
+        if ($mating != null) {
+            $mating->update([
+                'status' => $request->status
+            ]);
+        } else {
+            Mating::create([
+                'cat_id_1' => $request->cat_id_1,
+                'cat_id_2' => $request->cat_id_2,
+                'status' => $request->status
+            ]);
+        }
+        $msg = "";
+        if ($request->status = 4) {
+            $msg = "berhasil ditambahkan ke favorit";
+        } elseif ($request->status = 3) {
+            $msg = "melakukan chat";
+        } elseif ($request->status = 2) {
+            $msg = "berhasil melakukan mating";
+        } elseif ($request->status = 3) {
+            $msg = "mating dibatalkan";
         }
         return [
             'status' => 'success',
@@ -46,10 +57,35 @@ class MateController extends Controller
         ];
     }
 
-    public function catSearch(Request $request){
-        $user=User::find($request->user_id);
+    public function catMeMatingChanging(Request $request)
+    {
+        $mating = Mating::where("cat_id_1", $request->cat_id_1)->where("cat_id_2", $request->cat_id_2)->update([
+            'status' => $request->status
+        ]);
+        $msg = "";
+        if ($request->status = 0) {
+            $msg = "berhasil menghapus";
+        } elseif ($request->status = 4) {
+            $msg = "berhasil mengubah ke favorit";
+        } elseif ($request->status = 3) {
+            $msg = "melakukan chat";
+        } elseif ($request->status = 2) {
+            $msg = "berhasil melakukan mating";
+        } elseif ($request->status = 3) {
+            $msg = "mating dibatalkan";
+        }
+        return [
+            'status' => 'success',
+            'msg' => $msg,
+            'errors' => null,
+        ];
+    }
+
+    public function catSearch(Request $request)
+    {
+        $user = User::find($request->user_id);
 //        return $request;
-        $query = "SELECT users.id as user_id,cats.id,cats.name,cats.birth,cats.photo,races.title as race,
+        $query = "SELECT  users.id as user_id,cats.id,cats.name,cats.birth,cats.photo,races.title as race,
                     ( 6371 * acos( cos( radians($user->latitude) )
                     * cos( radians( users.latitude ) )
                     * cos( radians( users.longitude ) - radians($user->longitude) )
@@ -73,17 +109,17 @@ class MateController extends Controller
 //            $query = $query . " and vaccine = " . $request->vaccine;
 //        }
 //        if ($request->parasite != null) {
-            $query = $query . " and TIMESTAMPDIFF(day, cats.last_parasite, CURDATE()) >= 7";
-            $query = $query . " and TIMESTAMPDIFF(day, cats.last_parasite, CURDATE()) <= 90";
+        $query = $query . " and TIMESTAMPDIFF(day, cats.last_parasite, CURDATE()) >= 7";
+        $query = $query . " and TIMESTAMPDIFF(day, cats.last_parasite, CURDATE()) <= 90";
 //        }//7-90 hari
 //        if ($request->race != null) {
 //            $query = $query . "and race_id = " . $request->race;
 //        }
         $query = $query . " having distance <= " . $request->distance;
 //        if ($request->race != null) {
-            $query=$query." ORDER BY FIELD(race_id, $request->race) DESC";
+        $query = $query . " ORDER BY FIELD(race_id, $request->race) DESC";
 //        }
-        $query=$query." ,cats.last_parasite, cats.birth,vaccine  DESC";
+        $query = $query . " ,cats.last_parasite, cats.birth,vaccine  DESC";
 //        return $query;
 //        order by parasite -> umur -> vaccine ->
         return response(DB::select(DB::raw($query)));
