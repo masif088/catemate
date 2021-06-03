@@ -59,8 +59,8 @@ class MateController extends Controller
             $query=$query." ORDER BY FIELD(race_id, $request->race) DESC";
         }
         $query=$query." ,cats.last_parasite, cats.birth,vaccine  DESC";
-
+        return $query;
         //order by parasite -> umur -> vaccine ->
-        return response(DB::select(DB::raw($query)));
+//        return response(DB::select(DB::raw($query)));
     }
 }
