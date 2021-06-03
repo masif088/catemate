@@ -34,6 +34,7 @@ class MateController extends Controller
                     LEFT JOIN races ON races.id = cats.race_id
                     where cats.status=1 and users.status=1 and users.id!=$request->user_id
                     ";
+
         if ($request->sex == 1) {
             //laki
             $query = $query . "and cats.sex = 2 and TIMESTAMPDIFF(month, cats.birth, CURDATE()) >= 12";
@@ -53,7 +54,7 @@ class MateController extends Controller
 //        if ($request->race != null) {
 //            $query = $query . "and race_id = " . $request->race;
 //        }
-        $query = $query . "having distance <= " . $request->distance;
+        $query = $query . " having distance <= " . $request->distance;
         if ($request->race != null) {
             $query=$query." ORDER BY FIELD(race_id, $request->race) DESC";
         }
