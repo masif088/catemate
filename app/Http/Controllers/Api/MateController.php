@@ -143,6 +143,7 @@ class MateController extends Controller
         usort($res,function($a,$b){
             return $a->pf <=> $b->pf;
         });
-        return $res;
+
+        return array_reverse($res);
     }
 }
