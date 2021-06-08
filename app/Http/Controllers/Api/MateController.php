@@ -43,7 +43,7 @@ class MateController extends Controller
         $msg = "";
         if ($request->status = 4) {
             $msg = "berhasil ditambahkan ke favorit";
-        } elseif ($request->status = 3) {
+        } elseif ($request->status = 1) {
             $msg = "melakukan chat";
         } elseif ($request->status = 2) {
             $msg = "berhasil melakukan mating";
