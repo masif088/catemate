@@ -89,9 +89,10 @@ class CatController extends Controller
         $cat = Cat::find(str_replace('"', '', $request->cat_id));
         Storage::disk('local')->delete('public/' . $cat->photo);
         $file = $request->file('file');
-        Log::create(["log"=>"cek 1"]);
-        $filename = Str::slug($cat->name . '-' . date('Hms')) . '.' . $request->file('file')->getClientOriginalExtension();
-        Storage::disk('local')->put('public/cat_photo/' . $filename, $file, 'public');
+        $filename = Str::slug($request->name . '-' . date('Hms')) . '.' . $request->file('file')->getClientOriginalExtension();
+        Storage::disk('local')->put('public/cat_photo/' . $filename, file_get_contents($file));
+//        $filename = Str::slug($cat->name . '-' . date('Hms')) . '.' . $request->file('file')->getClientOriginalExtension();
+//        Storage::disk('local')->put('public/cat_photo/' . $filename, $file, 'public');
         Log::create(["log"=>"cek 2"]);
         $cat->update([
             'photo' => 'cat_photo/' . $filename
