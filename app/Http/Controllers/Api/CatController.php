@@ -86,7 +86,7 @@ class CatController extends Controller
         $cat = Cat::find($request->cat_id);
         Storage::disk('local')->delete('public/' . $cat->photo);
         $file = $request->file('file');
-        $filename = Str::slug($request->user_id . '-' . $request->name . date . '-' . ('Hms') . rand(100)) . '.' . $request->file('file')->getClientOriginalExtension();
+        $filename = Str::slug($cat->name . '-' . date('Hms')) . '.' . $request->file('file')->getClientOriginalExtension();
         Storage::disk('local')->put('public/cat_photo/' . $filename, $file, 'public');
         $cat->update([
             'photo' => 'cat_photo/' . $filename
