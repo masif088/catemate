@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Cat;
 use App\CatPhoto;
+use App\Log;
 use App\Race;
 use App\User;
 use Illuminate\Database\QueryException;
@@ -86,11 +87,14 @@ class CatController extends Controller
         $cat = Cat::find($request->cat_id);
         Storage::disk('local')->delete('public/' . $cat->photo);
         $file = $request->file('file');
+        Log::create(["log"=>"cek 1"]);
         $filename = Str::slug($cat->name . '-' . date('Hms')) . '.' . $request->file('file')->getClientOriginalExtension();
         Storage::disk('local')->put('public/cat_photo/' . $filename, $file, 'public');
+        Log::create(["log"=>"cek 2"]);
         $cat->update([
             'photo' => 'cat_photo/' . $filename
         ]);
+        Log::create(["log"=>"cek 3"]);
         $respon = [
             'status' => 'success',
             'msg' => 'Berhasil mengubah foto kucing',
