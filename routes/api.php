@@ -53,3 +53,4 @@ Route::get('cat/me/{user}/{cat}','Api\CatController@catMeDetail');
 Route::get('cat/me/{user}','Api\CatController@catMe');
 
 Route::get('chat/{user}','Api\MateController@chatList');
+Route::post('chat','Api\MateController@chat');

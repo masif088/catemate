@@ -28,16 +28,16 @@ class MateController extends Controller
 
     public function chatList($user_id)
     {
-        return Mating::with('cat_1', 'cat_2')
-            ->whereIn('status_chat',[1])
+        return Mating::with('cat_1', 'cat_1.user', 'cat_2.user')
+            ->whereIn('status_chat', [1])
 //            ->whereIn('status_mate',[1])
             ->where(function ($q) use ($user_id) {
-            $q->whereHas('cat_1', function ($q) use ($user_id) {
-                return $q->whereUserId($user_id);
-            })->orWhereHas('cat_2', function ($q) use ($user_id) {
-                return $q->whereUserId($user_id);
-            });
-        })->get();
+                $q->whereHas('cat_1', function ($q) use ($user_id) {
+                    return $q->whereUserId($user_id);
+                })->orWhereHas('cat_2', function ($q) use ($user_id) {
+                    return $q->whereUserId($user_id);
+                });
+            })->get();
     }
 
     public function catMeMating(Request $request)
@@ -97,8 +97,6 @@ class MateController extends Controller
 
     public function catSearch(Request $request)
     {
-//        $sex=1;
-//        $race_id=1;
         $user = User::find(1);
         $query = "SELECT  TIMESTAMPDIFF(month, cats.birth, CURDATE()) as age ,TIMESTAMPDIFF(day, cats.last_parasite, CURDATE()) as parasite, cats.vaccine, users.id as user_id,cats.id,cats.name,cats.birth,cats.photo,races.title as race,
                     ( 6371 * acos( cos( radians($user->latitude) )
@@ -159,5 +157,22 @@ class MateController extends Controller
         });
 
         return array_reverse($res);
+    }
+
+    public function chat(Request $request)
+    {
+        Mating::find($request->id)
+            ->update([
+                "last_chat" => $request->last_chat,
+                "status_chat" => $request->status_chat,
+                "status_mate" => $request->status_mate,
+                "user_id_1_read" => $request->user_id_1_read,
+                "user_id_2_read" => $request->user_id_2_read,
+            ]);
+        return [
+            'status' => 'success',
+            'msg' => "",
+            'errors' => null,
+        ];
     }
 }
