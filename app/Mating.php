@@ -11,8 +11,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $status
  * @property string $created_at
  * @property string $updated_at
- * @property Cat $cat
- * @property Cat $cat
+ * @property Cat $cat1
+ * @property Cat $cat2
  */
 class Mating extends Model
 {
@@ -26,7 +26,7 @@ class Mating extends Model
     /**
      * @var array
      */
-    protected $fillable = ['cat_id_1', 'cat_id_2', 'status', 'created_at', 'updated_at'];
+    protected $fillable = ['cat_id_1', 'cat_id_2', 'status_chat','status_mate','user_id_1_read','user_id_2_read', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

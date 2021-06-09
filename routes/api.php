@@ -42,6 +42,7 @@ Route::post('cat/update/status','Api\CatController@catUpdateStatus');
 Route::post('cat/update/photo','Api\CatController@catUpdatePhoto');
 Route::post('cat/remove/photo','Api\CatController@catRemovePhoto');
 Route::post('cat/add/photo','Api\CatController@catAddPhoto');
+Route::post('cat/add/photo','Api\CatController@chatList');
 
 Route::get('cat/me/love/{cat}','Api\MateController@catLove');
 Route::get('cat/me/married/{cat}','Api\MateController@catMarried');
@@ -50,3 +51,5 @@ Route::post('cat/me/mating','Api\MateController@catMeMating');
 
 Route::get('cat/me/{user}/{cat}','Api\CatController@catMeDetail');
 Route::get('cat/me/{user}','Api\CatController@catMe');
+
+Route::post('chat/{user}','Api\MateController@chatList');

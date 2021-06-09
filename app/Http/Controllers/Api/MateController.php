@@ -26,6 +26,20 @@ class MateController extends Controller
             ->get();
     }
 
+    public function chatList($user_id)
+    {
+        return Mating::with('cat_1', 'cat_1')
+            ->whereIn('status_chat',[1])
+//            ->whereIn('status_mate',[1])
+            ->where(function ($q) use ($user_id) {
+            $q->whereHas('cat_id_1', function ($q) use ($user_id) {
+                return $q->whereUserId($user_id);
+            })->orWhereHas('cat_id_2', function ($q) use ($user_id) {
+                return $q->whereUserId($user_id);
+            });
+        })->get();
+    }
+
     public function catMeMating(Request $request)
     {
         $mating = Mating::where("cat_id_1", $request->cat_id_1)->where("cat_id_2", $request->cat_id_2)->first();
@@ -108,39 +122,39 @@ class MateController extends Controller
         $query = $query . " and TIMESTAMPDIFF(day, cats.last_parasite, CURDATE()) >= 7";
         $query = $query . " and TIMESTAMPDIFF(day, cats.last_parasite, CURDATE()) <= 90";
         $query = $query . " having distance <= " . 25;
-        $res=DB::select(DB::raw($query));
-        foreach ($res as$r){
-            if ($r->parasite>=7 &&$r->parasite<=23){
-                $par=5;
-            }elseif ($r->parasite>=24 &&$r->parasite<=40){
-                $par=4;
-            }elseif ($r->parasite>=41 &&$r->parasite<=57){
-                $par=3;
-            }elseif ($r->parasite>=58 &&$r->parasite<=73){
-                $par=2;
-            }else{
-                $par=1;
+        $res = DB::select(DB::raw($query));
+        foreach ($res as $r) {
+            if ($r->parasite >= 7 && $r->parasite <= 23) {
+                $par = 5;
+            } elseif ($r->parasite >= 24 && $r->parasite <= 40) {
+                $par = 4;
+            } elseif ($r->parasite >= 41 && $r->parasite <= 57) {
+                $par = 3;
+            } elseif ($r->parasite >= 58 && $r->parasite <= 73) {
+                $par = 2;
+            } else {
+                $par = 1;
             }
 
-            if ($r->age <= 12 && $r->age <= 36){
-                $age=5;
-            }elseif ($r->age <= 36 && $r->age <= 60){
-                $age=4;
-            }elseif ($r->age <= 10 && $r->age < 12){
-                $age=3;
-            }elseif ($r->age > 60 ){
-                $age=2;
-            }else{
-                $age=1;
+            if ($r->age <= 12 && $r->age <= 36) {
+                $age = 5;
+            } elseif ($r->age <= 36 && $r->age <= 60) {
+                $age = 4;
+            } elseif ($r->age <= 10 && $r->age < 12) {
+                $age = 3;
+            } elseif ($r->age > 60) {
+                $age = 2;
+            } else {
+                $age = 1;
             }
-            if ($r->race==$request->race){
-                $race=1;
-            }else{
-                $race=0;
+            if ($r->race == $request->race) {
+                $race = 1;
+            } else {
+                $race = 0;
             }
-            $r->pf=(($par+$age+$r->vaccine)/3)*0.7+($race/1)*0.3;
+            $r->pf = (($par + $age + $r->vaccine) / 3) * 0.7 + ($race / 1) * 0.3;
         }
-        usort($res,function($a,$b){
+        usort($res, function ($a, $b) {
             return $a->pf <=> $b->pf;
         });
 
