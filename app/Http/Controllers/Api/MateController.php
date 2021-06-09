@@ -32,9 +32,9 @@ class MateController extends Controller
             ->whereIn('status_chat',[1])
 //            ->whereIn('status_mate',[1])
             ->where(function ($q) use ($user_id) {
-            $q->whereHas('cat_id_1', function ($q) use ($user_id) {
+            $q->whereHas('cat_1', function ($q) use ($user_id) {
                 return $q->whereUserId($user_id);
-            })->orWhereHas('cat_id_2', function ($q) use ($user_id) {
+            })->orWhereHas('cat_2', function ($q) use ($user_id) {
                 return $q->whereUserId($user_id);
             });
         })->get();
