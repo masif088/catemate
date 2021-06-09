@@ -28,7 +28,7 @@ class MateController extends Controller
 
     public function chatList($user_id)
     {
-        return Mating::with('cat_1', 'cat_1')
+        return Mating::with('cat_1', 'cat_2')
             ->whereIn('status_chat',[1])
 //            ->whereIn('status_mate',[1])
             ->where(function ($q) use ($user_id) {
