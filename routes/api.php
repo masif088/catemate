@@ -52,4 +52,4 @@ Route::post('cat/me/mating','Api\MateController@catMeMating');
 Route::get('cat/me/{user}/{cat}','Api\CatController@catMeDetail');
 Route::get('cat/me/{user}','Api\CatController@catMe');
 
-Route::post('chat/{user}','Api\MateController@chatList');
+Route::get('chat/{user}','Api\MateController@chatList');
