@@ -51,7 +51,8 @@ class MateController extends Controller
             Mating::create([
                 'cat_id_1' => $request->cat_id_1,
                 'cat_id_2' => $request->cat_id_2,
-                'status' => $request->status
+                'status_mate' => $request->status_mate,
+                'status_chat' => $request->status_chat
             ]);
         }
         $msg = "";
