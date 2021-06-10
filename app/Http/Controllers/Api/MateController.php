@@ -58,7 +58,7 @@ class MateController extends Controller
                 'status_mate' => $request->status_mate,
                 'status_chat' => $request->status_chat
             ]);
-            $mating=$mating->with('cat_1','cat_2', 'cat_1.user', 'cat_2.user');
+            $mating=Mating::find($mating->id)->with('cat_1','cat_2', 'cat_1.user', 'cat_2.user');
         }
 
 //        if()
