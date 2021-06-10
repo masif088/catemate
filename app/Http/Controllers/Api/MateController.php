@@ -200,7 +200,7 @@ class MateController extends Controller
         ]);
         return [
             'status' => 'success',
-            'msg' => "",
+            'msg' => "berhasil mengubah status mate",
             'errors' => null,
         ];
     }
