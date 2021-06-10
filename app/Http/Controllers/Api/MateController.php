@@ -209,7 +209,7 @@ class MateController extends Controller
 
     public function readChat(Request $request)
     {
-        if ($request->userId == 1) {
+        if ($request->reader == 1) {
             Mating::find($request->id)
                 ->update([
                     "user_id_1_read" => 1,
