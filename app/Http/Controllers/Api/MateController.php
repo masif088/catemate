@@ -166,15 +166,15 @@ class MateController extends Controller
             Mating::find($request->id)
                 ->update([
                     "last_chat" => $request->last_chat,
-                    "user_id_1_read" => 0,
-                    "user_id_2_read" => 1,
+                    "user_id_1_read" => 1,
+                    "user_id_2_read" => 0,
                 ]);
         } else {
             Mating::find($request->id)
                 ->update([
                     "last_chat" => $request->last_chat,
-                    "user_id_1_read" => 1,
-                    "user_id_2_read" => 0,
+                    "user_id_1_read" => 0,
+                    "user_id_2_read" => 1,
                 ]);
         }
         return [
