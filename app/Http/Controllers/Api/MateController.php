@@ -161,6 +161,7 @@ class MateController extends Controller
 
     public function lastChat(Request $request)
     {
+        dd($request);
         if ($request->userId == 1) {
             Mating::find($request->id)
                 ->update([
