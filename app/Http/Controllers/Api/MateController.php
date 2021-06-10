@@ -47,21 +47,21 @@ class MateController extends Controller
     {
         $mating = Mating::where("cat_id_1", $request->cat_id_1)->where("cat_id_2", $request->cat_id_2)->first();
         if ($mating != null) {
-            dd("cek1");
+//            dd("cek1");
             $mating->update([
                 'status_mate' => $request->status_mate,
                 'status_chat' => $request->status_chat
             ]);
-            dd("cek1");
+//            dd("cek1");
         } else {
-            dd("cek2");
+//            dd("cek2");
             $mating = Mating::create([
                 'cat_id_1' => $request->cat_id_1,
                 'cat_id_2' => $request->cat_id_2,
                 'status_mate' => $request->status_mate,
                 'status_chat' => $request->status_chat
             ]);
-            dd("cek2");
+//            dd("cek2");
 //            $mating=Mating::find($mating->id)->with('cat_1','cat.2', 'cat_1.user', 'cat_2.user');
         }
 
