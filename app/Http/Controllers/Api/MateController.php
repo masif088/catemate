@@ -51,6 +51,7 @@ class MateController extends Controller
                 'status_mate' => $request->status_mate,
                 'status_chat' => $request->status_chat
             ]);
+            dd("cek1");
         } else {
             $mating = Mating::create([
                 'cat_id_1' => $request->cat_id_1,
@@ -58,7 +59,8 @@ class MateController extends Controller
                 'status_mate' => $request->status_mate,
                 'status_chat' => $request->status_chat
             ]);
-            $mating=Mating::find($mating->id)->with('cat_1','cat.2', 'cat_1.user', 'cat_2.user');
+            dd("cek2");
+//            $mating=Mating::find($mating->id)->with('cat_1','cat.2', 'cat_1.user', 'cat_2.user');
         }
 
 //        if()
