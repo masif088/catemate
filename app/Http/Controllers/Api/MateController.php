@@ -45,21 +45,23 @@ class MateController extends Controller
         $mating = Mating::where("cat_id_1", $request->cat_id_1)->where("cat_id_2", $request->cat_id_2)->first();
         if ($mating != null) {
             $mating->update([
-                'status' => $request->status
+                'status_mate' => $request->status_mate,
+                'status_chat' => $request->status_chat
             ]);
         } else {
-            Mating::create([
+            $mating = Mating::create([
                 'cat_id_1' => $request->cat_id_1,
                 'cat_id_2' => $request->cat_id_2,
                 'status_mate' => $request->status_mate,
                 'status_chat' => $request->status_chat
             ]);
         }
+//        if()
         $msg = "";
-        if ($request->status = 4) {
+        if ($request->status_chat = 4) {
             $msg = "berhasil ditambahkan ke favorit";
-        } elseif ($request->status = 1) {
-            $msg = "melakukan chat";
+        } elseif ($request->status_chat = 1) {
+            $msg = "$mating->id";
         } elseif ($request->status = 2) {
             $msg = "berhasil melakukan mating";
         } elseif ($request->status = 3) {
