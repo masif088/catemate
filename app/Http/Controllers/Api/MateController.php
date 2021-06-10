@@ -159,20 +159,73 @@ class MateController extends Controller
         return array_reverse($res);
     }
 
-    public function chat(Request $request)
+    public function lastChat(Request $request)
     {
-        Mating::find($request->id)
-            ->update([
-                "last_chat" => $request->last_chat,
-                "status_chat" => $request->status_chat,
-                "status_mate" => $request->status_mate,
-                "user_id_1_read" => $request->user_id_1_read,
-                "user_id_2_read" => $request->user_id_2_read,
-            ]);
+        if ($request->userId == 1) {
+            Mating::find($request->id)
+                ->update([
+                    "last_chat" => $request->last_chat,
+                    "user_id_1_read" => 1,
+                    "user_id_2_read" => 0,
+                ]);
+        } else {
+            Mating::find($request->id)
+                ->update([
+                    "last_chat" => $request->last_chat,
+                    "user_id_1_read" => 0,
+                    "user_id_2_read" => 1,
+                ]);
+        }
         return [
             'status' => 'success',
             'msg' => "",
             'errors' => null,
         ];
     }
+
+    public function statusMate(Request $request)
+    {
+        Mating::find($request->id)->update([
+            "status_mate" => $request->status_mate
+        ]);
+        return [
+            'status' => 'success',
+            'msg' => "",
+            'errors' => null,
+        ];
+    }
+
+    public function statusChat(Request $request)
+    {
+        Mating::find($request->id)->update([
+            "status_chat" => $request->status_chat
+        ]);
+        return [
+            'status' => 'success',
+            'msg' => "",
+            'errors' => null,
+        ];
+    }
+
+    public function readChat(Request $request)
+    {
+        if ($request->userId == 1) {
+            Mating::find($request->id)
+                ->update([
+                    "user_id_1_read" => 1,
+                ]);
+        } else {
+            Mating::find($request->id)
+                ->update([
+                    "user_id_2_read" => 1,
+                ]);
+        }
+        return [
+            'status' => 'success',
+            'msg' => "",
+            'errors' => null,
+        ];
+    }
+
+
 }
