@@ -28,7 +28,7 @@ class MateController extends Controller
 
     public function chatList($user_id)
     {
-        return Mating::with('cat_1', 'cat_1.user', 'cat_2.user')
+        return Mating::with('cat_1','cat.2', 'cat_1.user', 'cat_2.user')
             ->whereIn('status_chat', [1])
 //            ->whereIn('status_mate',[1])
             ->where(function ($q) use ($user_id) {
@@ -38,6 +38,9 @@ class MateController extends Controller
                     return $q->whereUserId($user_id);
                 });
             })->get();
+    }
+    public function getMating($mating){
+
     }
 
     public function catMeMating(Request $request)
@@ -55,13 +58,15 @@ class MateController extends Controller
                 'status_mate' => $request->status_mate,
                 'status_chat' => $request->status_chat
             ]);
+            $mating=Mating::find($mating->id)->with('cat_1','cat.2', 'cat_1.user', 'cat_2.user');
         }
+
 //        if()
         $msg = "";
         if ($request->status_chat = 4) {
             $msg = "berhasil ditambahkan ke favorit";
         } elseif ($request->status_chat = 1) {
-            $msg = "$mating->id";
+            $msg = "$mating";
         } elseif ($request->status = 2) {
             $msg = "berhasil melakukan mating";
         } elseif ($request->status = 3) {
@@ -71,6 +76,7 @@ class MateController extends Controller
             'status' => 'success',
             'msg' => $msg,
             'errors' => null,
+            'mating'=>$mating
         ];
     }
 
