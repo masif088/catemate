@@ -54,7 +54,7 @@ Route::get('cat/me/{user}','Api\CatController@catMe');
 
 Route::get('chat/{user}','Api\MateController@chatList');
 Route::post('chat','Api\MateController@chat');
-Route::post('chat/last','Api\MateController@lastChat');
-Route::post('chat/mate','Api\MateController@statusMate');
-Route::post('chat/chat','Api\MateController@statusChat');
-Route::post('chat/read','Api\MateController@readChat');
+Route::post('chat/last-chat','Api\MateController@lastChat');
+Route::post('chat/status-mate','Api\MateController@statusMate');
+Route::post('chat/status-chat','Api\MateController@statusChat');
+Route::post('chat/user-read','Api\MateController@readChat');
