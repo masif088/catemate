@@ -45,7 +45,7 @@ class MateController extends Controller
 
     public function catMeMating(Request $request)
     {
-        $mating = Mating::where("cat_id_1", $request->cat_id_1)->where("cat_id_2", $request->cat_id_2)->with('cat_1','cat.2', 'cat_1.user', 'cat_2.user')->first();
+        $mating = Mating::where("cat_id_1", $request->cat_id_1)->where("cat_id_2", $request->cat_id_2)->with('cat_1','cat_2', 'cat_1.user', 'cat_2.user')->first();
         if ($mating != null) {
             $mating->update([
                 'status_mate' => $request->status_mate,
