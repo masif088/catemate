@@ -120,6 +120,17 @@ class AuthController extends Controller
             ];
         }
     }
+    public function updateLocation(Request $request){
+        User::find($request->id)->update([
+            'latitude'=>$request->latitude,
+            'longitude'=>$request->longitude,
+        ]);
+        return [
+            "msg" => "Berhasil menyesuaikan lokasi",
+            "errors" => "",
+            "status" => "success"
+        ];
+    }
 
     public function logout(Request $request){
         $user = User::whereRememberToken($request->token)

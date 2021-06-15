@@ -19,7 +19,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="42b3630f-9da0-431d-a6ac-df9f6331a1dc" name="Default Changelist" comment="" />
+    <list default="true" id="42b3630f-9da0-431d-a6ac-df9f6331a1dc" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -139,7 +141,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../project/imaji-api" />
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="SvnConfiguration">
@@ -176,7 +178,9 @@
       <workItem from="1623151539637" duration="7607000" />
       <workItem from="1623221610201" duration="8075000" />
       <workItem from="1623309077794" duration="2144000" />
-      <workItem from="1623320725658" duration="7938000" />
+      <workItem from="1623320725658" duration="9398000" />
+      <workItem from="1623570263809" duration="30000" />
+      <workItem from="1623570460353" duration="15000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <created>1622721187221</created>
@@ -235,6 +239,10 @@
       <screen x="0" y="28" width="1366" height="740" />
     </state>
     <state x="301" y="28" width="754" height="736" key="CommitChangelistDialog2/0.28.1366.740@0.28.1366.740" timestamp="1622721224970" />
+    <state x="466" y="156" width="424" height="480" key="FileChooserDialogImpl" timestamp="1623570473450">
+      <screen x="0" y="28" width="1366" height="740" />
+    </state>
+    <state x="466" y="156" width="424" height="480" key="FileChooserDialogImpl/0.28.1366.740@0.28.1366.740" timestamp="1623570473450" />
     <state width="214" height="456" key="HiddenNamespacesPopup" timestamp="1622812796468">
       <screen x="0" y="28" width="1366" height="740" />
     </state>

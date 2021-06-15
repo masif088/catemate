@@ -33,6 +33,7 @@ Route::post('login','Api\AuthController@login');
 Route::post('register','Api\AuthController@register');
 Route::post('check/login','Api\AuthController@checkLogin');
 Route::post('logout','Api\AuthController@logout');
+Route::post('update/location','Api\AuthController@updateLocation');
 
 Route::get('cat/race','Api\CatController@catRace');
 
