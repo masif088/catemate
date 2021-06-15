@@ -122,7 +122,7 @@ class AuthController extends Controller
         }
     }
 
-    public function updatePhotoProfile(Request $request)
+    public function updateProfilePhoto(Request $request)
     {
         $file = $request->file('file');
         $filename = Str::slug($request->id . '-' . date('Hms')) . '.' . $request->file('file')->getClientOriginalExtension();
