@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Cat;
+use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -89,7 +88,7 @@ class AuthController extends Controller
             return response()->json($response, 200);
         }
         $token = Str::random(60);
-        $user->update(['remember_token'=>$token]);
+        $user->update(['remember_token' => $token]);
 //        $tokenResult = $user->remember_token;
         $respon = [
             'status' => 'success',
@@ -123,7 +122,8 @@ class AuthController extends Controller
         }
     }
 
-    public function updateProfile(Request $request){
+    public function updatePhotoProfile(Request $request)
+    {
         $file = $request->file('file');
         $filename = Str::slug($request->id . '-' . date('Hms')) . '.' . $request->file('file')->getClientOriginalExtension();
         Storage::disk('local')->put('public/profile_photo/' . $filename, file_get_contents($file));
@@ -137,10 +137,32 @@ class AuthController extends Controller
         ];
     }
 
-    public function updateLocation(Request $request){
+    public function updateProfile(Request $request)
+    {
+        if ($request->password == null) {
+            User::find($request->id)->update([
+                "name" => $request->name,
+                "address" => $request->address,
+            ]);
+        } else {
+            User::find($request->id)->update([
+                "name" => $request->name,
+                "address" => $request->address,
+                "password" => bcrypt($request->password),
+            ]);
+        }
+        return [
+            "msg" => "Berhasil mengubah profil",
+            "errors" => "",
+            "status" => "success"
+        ];
+    }
+
+    public function updateLocation(Request $request)
+    {
         User::find($request->id)->update([
-            'latitude'=>$request->latitude,
-            'longitude'=>$request->longitude,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
         ]);
         return [
             "msg" => "Berhasil menyesuaikan lokasi",
@@ -149,10 +171,11 @@ class AuthController extends Controller
         ];
     }
 
-    public function logout(Request $request){
+    public function logout(Request $request)
+    {
         $user = User::whereRememberToken($request->token)
             ->update([
-                "remember_token"=>""
+                "remember_token" => ""
             ]);
         return [
             "msg" => "Telah berhasil keluar",
