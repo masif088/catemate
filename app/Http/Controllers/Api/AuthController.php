@@ -127,14 +127,28 @@ class AuthController extends Controller
         $file = $request->file('file');
         $filename = Str::slug($request->id . '-' . date('Hms')) . '.' . $request->file('file')->getClientOriginalExtension();
         Storage::disk('local')->put('public/profile_photo/' . $filename, file_get_contents($file));
+
         User::find(str_replace('"', '', $request->id))->update([
             'photo' => 'profile_photo/' . $filename
         ]);
-        return [
-            "msg" => "Berhasil mengubah photo profil",
-            "errors" => "",
-            "status" => "success"
+        $user=User::find(str_replace('"', '', $request->id));
+//        return [
+//            "msg" => "Berhasil mengubah photo profil",
+//            "errors" => "",
+//            "status" => "success"
+//        ];
+
+        $response = [
+            'status' => 'success',
+            'msg' => 'Berhasil mengubah',
+            'errors' => null,
+            'content' => [
+                'status_code' => 200,
+                'token_type' => 'Bearer',
+                'user' => $user
+            ]
         ];
+        return $response;
     }
 
     public function updateProfile(Request $request)
@@ -151,11 +165,18 @@ class AuthController extends Controller
                 "password" => bcrypt($request->password),
             ]);
         }
-        return [
-            "msg" => "Berhasil mengubah profil",
-            "errors" => "",
-            "status" => "success"
+        $user=User::find(str_replace('"', '', $request->id));
+        $response = [
+            'status' => 'success',
+            'msg' => 'Berhasil mengubah',
+            'errors' => null,
+            'content' => [
+                'status_code' => 200,
+                'token_type' => 'Bearer',
+                'user' => $user
+            ]
         ];
+        return $response;
     }
 
     public function updateLocation(Request $request)
