@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Cat;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -120,6 +122,21 @@ class AuthController extends Controller
             ];
         }
     }
+
+    public function updateProfile(Request $request){
+        $file = $request->file('file');
+        $filename = Str::slug($request->id . '-' . date('Hms')) . '.' . $request->file('file')->getClientOriginalExtension();
+        Storage::disk('local')->put('public/profile_photo/' . $filename, file_get_contents($file));
+        User::find($request->id)->update([
+            'photo' => 'profile_photo/' . $filename
+        ]);
+        return [
+            "msg" => "Berhasil mengubah photo profil",
+            "errors" => "",
+            "status" => "success"
+        ];
+    }
+
     public function updateLocation(Request $request){
         User::find($request->id)->update([
             'latitude'=>$request->latitude,
