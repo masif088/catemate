@@ -127,7 +127,7 @@ class AuthController extends Controller
         $file = $request->file('file');
         $filename = Str::slug($request->id . '-' . date('Hms')) . '.' . $request->file('file')->getClientOriginalExtension();
         Storage::disk('local')->put('public/profile_photo/' . $filename, file_get_contents($file));
-        User::find($request->id)->update([
+        User::find(str_replace('"', '', $request->id))->update([
             'photo' => 'profile_photo/' . $filename
         ]);
         return [
