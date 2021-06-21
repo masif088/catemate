@@ -21,7 +21,6 @@
   <component name="ChangeListManager">
     <list default="true" id="42b3630f-9da0-431d-a6ac-df9f6331a1dc" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/AuthController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/AuthController.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -182,7 +181,11 @@
       <workItem from="1623320725658" duration="9398000" />
       <workItem from="1623570263809" duration="30000" />
       <workItem from="1623570460353" duration="15000" />
-      <workItem from="1623764935893" duration="5032000" />
+      <workItem from="1623764935893" duration="6173000" />
+      <workItem from="1623779368252" duration="389000" />
+      <workItem from="1624176861147" duration="1362000" />
+      <workItem from="1624186963745" duration="25000" />
+      <workItem from="1624266978487" duration="414000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <created>1622721187221</created>
@@ -241,10 +244,10 @@
       <screen x="0" y="28" width="1366" height="740" />
     </state>
     <state x="301" y="28" width="754" height="736" key="CommitChangelistDialog2/0.28.1366.740@0.28.1366.740" timestamp="1622721224970" />
-    <state x="466" y="156" width="424" height="480" key="FileChooserDialogImpl" timestamp="1623570473450">
+    <state x="466" y="156" width="424" height="480" key="FileChooserDialogImpl" timestamp="1623779755165">
       <screen x="0" y="28" width="1366" height="740" />
     </state>
-    <state x="466" y="156" width="424" height="480" key="FileChooserDialogImpl/0.28.1366.740@0.28.1366.740" timestamp="1623570473450" />
+    <state x="466" y="156" width="424" height="480" key="FileChooserDialogImpl/0.28.1366.740@0.28.1366.740" timestamp="1623779755165" />
     <state width="214" height="456" key="HiddenNamespacesPopup" timestamp="1622812796468">
       <screen x="0" y="28" width="1366" height="740" />
     </state>

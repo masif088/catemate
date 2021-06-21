@@ -12,16 +12,21 @@ class MateController extends Controller
 {
     public function catLove($id)
     {
-        return Mating::with('cat_2')->where('status', '=', '1')
+        return Mating::with('cat_2')->where('status_mate', '=', '4')
             ->where('cat_id_1', '=', $id)
             ->get();
     }
 
     public function catMarried($id)
     {
-        return Mating::with('cat_1', 'cat_2')->where('status', '=', '2')
+        return Mating::with('cat_1', 'cat_2')->where('status_mate', '=', '1')
             ->where(function ($q) use ($id) {
-                return $q->where('cat_id_1', '=', $id)->orWhere('cat_id_2', '=', $id);
+                return $q->whereHas('cat_1', function ($q2){
+                    return $q2->user_id==auth()->id();
+                })->orWhereHas('cat_2', function ($q2){
+                    return $q2->user_id==auth()->id();
+                });
+
             })
             ->get();
     }
