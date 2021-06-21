@@ -19,7 +19,7 @@ class MateController extends Controller
 
     public function catMarried($id)
     {
-        return Mating::with('cat_1', 'cat_2')->where('status_mate', '=', '1')
+        return Mating::with('cat_1.race', 'cat_2.race')->where('status_mate', '=', '1')
             ->where(function ($q) use ($id) {
                 return $q->whereHas('cat_1', function ($q2) use ($id) {
                     $q2->whereUserId($id);
