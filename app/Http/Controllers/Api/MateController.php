@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Mating;
 use App\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 
 class MateController extends Controller
@@ -21,21 +21,19 @@ class MateController extends Controller
     {
         return Mating::with('cat_1', 'cat_2')->where('status_mate', '=', '1')
             ->where(function ($q) use ($id) {
-                return $q->whereHas('cat_1', function ($q2){
-                    return $q2->user_id==auth()->id();
-                })->orWhereHas('cat_2', function ($q2){
-                    return $q2->user_id==auth()->id();
+                return $q->whereHas('cat_1', function ($q2) use ($id) {
+                    $q2->whereUserId($id);
+                })->orWhereHas('cat_2', function ($q2) use ($id) {
+                    $q2->whereUserId($id);
                 });
-
             })
             ->get();
     }
 
     public function chatList($user_id)
     {
-        return Mating::with('cat_1','cat_2', 'cat_1.user', 'cat_2.user')
+        return Mating::with('cat_1', 'cat_2', 'cat_1.user', 'cat_2.user')
             ->whereIn('status_chat', [1])
-//            ->whereIn('status_mate',[1])
             ->where(function ($q) use ($user_id) {
                 $q->whereHas('cat_1', function ($q) use ($user_id) {
                     return $q->whereUserId($user_id);
@@ -44,13 +42,15 @@ class MateController extends Controller
                 });
             })->get();
     }
-    public function getMating($mating){
+
+    public function getMating($mating)
+    {
 
     }
 
     public function catMeMating(Request $request)
     {
-        $mating = Mating::where("cat_id_1", $request->cat_id_1)->where("cat_id_2", $request->cat_id_2)->with('cat_1','cat_2', 'cat_1.user', 'cat_2.user')->first();
+        $mating = Mating::where("cat_id_1", $request->cat_id_1)->where("cat_id_2", $request->cat_id_2)->with('cat_1', 'cat_2', 'cat_1.user', 'cat_2.user')->first();
         if ($mating != null) {
             $mating->update([
                 'status_mate' => $request->status_mate,
@@ -82,7 +82,7 @@ class MateController extends Controller
             'status' => 'success',
             'msg' => $msg,
             'errors' => null,
-            'mating'=>$mating
+            'mating' => $mating
         ];
     }
 
