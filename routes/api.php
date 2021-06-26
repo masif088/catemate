@@ -36,7 +36,7 @@ Route::post('logout','Api\AuthController@logout');
 Route::post('update/location','Api\AuthController@updateLocation');
 Route::post('update/profile','Api\AuthController@updateProfile');
 Route::post('update/profile/photo','Api\AuthController@updateProfilePhoto');
-
+Route::post('update/profile/status','Api\AuthController@updateStatus');
 Route::get('cat/race','Api\CatController@catRace');
 
 Route::post('cat/store','Api\CatController@catStore');

@@ -181,14 +181,20 @@ class AuthController extends Controller
 
     public function updateLocation(Request $request)
     {
-        User::find($request->id)->update([
+        $user=User::find($request->id);
+        $user->update([
             'latitude' => $request->latitude,
             'longitude' => $request->longitude,
         ]);
         return [
             "msg" => "Berhasil menyesuaikan lokasi",
             "errors" => "",
-            "status" => "success"
+            "status" => "success",
+            'content' => [
+                'status_code' => 200,
+                'token_type' => 'Bearer',
+                'user' => $user
+            ]
         ];
     }
 
@@ -202,6 +208,23 @@ class AuthController extends Controller
             "msg" => "Telah berhasil keluar",
             "errors" => "",
             "status" => "success"
+        ];
+    }
+
+    public function updateStatus(Request $request){
+        $user=User::find($request->id);
+        $user->update([
+            'status' => $request->status,
+        ]);
+        return [
+            "msg" => "Berhasil mengubah status",
+            "errors" => "",
+            "status" => "success",
+            'content' => [
+                'status_code' => 200,
+                'token_type' => 'Bearer',
+                'user' => $user
+            ]
         ];
     }
 

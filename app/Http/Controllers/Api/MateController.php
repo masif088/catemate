@@ -40,7 +40,8 @@ class MateController extends Controller
                 })->orWhereHas('cat_2', function ($q) use ($user_id) {
                     return $q->whereUserId($user_id);
                 });
-            })->get();
+            })->orderBy('updated_at','desc')
+            ->get();
     }
 
     public function getMating($mating)

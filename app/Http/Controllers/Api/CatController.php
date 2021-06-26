@@ -128,5 +128,10 @@ class CatController extends Controller
         ];
         return response()->json($response, 200);
     }
+//    public function catUpdateStatus(Request $request){
+//        Cat::find($request->cat_id)->update([
+//            'status'=>$request->status
+//        ]);
+//    }
 
 }
