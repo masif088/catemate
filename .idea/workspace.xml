@@ -20,11 +20,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="42b3630f-9da0-431d-a6ac-df9f6331a1dc" name="Default Changelist" comment="update">
-      <change afterPath="$PROJECT_DIR$/.idea/commandlinetools/Laravel_7_4_21__6_27_PM.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/commandlinetools/schemas/frameworkDescriptionVersion1.1.4.xsd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/MateController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/MateController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -196,7 +195,7 @@
       <workItem from="1624718178621" duration="636000" />
       <workItem from="1624758955809" duration="599000" />
       <workItem from="1625355295794" duration="2284000" />
-      <workItem from="1625398061645" duration="350000" />
+      <workItem from="1625398061645" duration="2788000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <created>1622721187221</created>

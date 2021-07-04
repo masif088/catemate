@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Log;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -213,6 +214,7 @@ class AuthController extends Controller
 
     public function updateStatus(Request $request){
         $user=User::find($request->id);
+        Log::create(['log'=>$request->status,]);
         $user->update([
             'status' => $request->status,
         ]);
