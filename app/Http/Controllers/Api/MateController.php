@@ -114,6 +114,8 @@ class MateController extends Controller
 
     public function catSearch(Request $request)
     {
+
+        Log::create(['log'=>$request->distance]);
         $user = User::find($request->user_id);
         Log::create(['log'=>$request->distance]);
         //haversine
