@@ -140,6 +140,8 @@ class MateController extends Controller
         $query = $query . " AND TIMESTAMPDIFF(day, cats.last_parasite, CURDATE()) >= 7";
         $query = $query . " AND TIMESTAMPDIFF(day, cats.last_parasite, CURDATE()) <= 90";
         $query = $query . " having distance <= " . $request->distance;
+
+        Log::create(['log'=>$query]);
         $res = DB::select(DB::raw($query));
 
         Log::create(['log'=>$query]);
