@@ -114,13 +114,11 @@ class MateController extends Controller
 
     public function catSearch(Request $request)
     {
-
         Log::create(['log'=>$request->distance]);
         $user = User::find($request->user_id);
         Log::create(['log'=>$request->distance]);
         //haversine
-        $query = "
-        SELECT  TIMESTAMPDIFF(month, cats.birth, CURDATE()) as age ,
+        $query = "SELECT  TIMESTAMPDIFF(month, cats.birth, CURDATE()) as age ,
                TIMESTAMPDIFF(day, cats.last_parasite, CURDATE()) as parasite,
                cats.vaccine, users.id as user_id,cats.id,cats.name,
                cats.birth,cats.photo,races.title as race,
