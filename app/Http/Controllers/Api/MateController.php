@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Log;
 use App\Mating;
 use App\User;
 use Illuminate\Http\Request;
@@ -114,6 +115,7 @@ class MateController extends Controller
     public function catSearch(Request $request)
     {
         $user = User::find($request->user_id);
+        Log::create(['log'=>$request->distance]);
         //haversine
         $query = "
         SELECT  TIMESTAMPDIFF(month, cats.birth, CURDATE()) as age ,
