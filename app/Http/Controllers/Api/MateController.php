@@ -118,37 +118,36 @@ class MateController extends Controller
         $user = User::find($request->user_id);
         Log::create(['log'=>$request->distance]);
         //haversine
-//        $query = "SELECT  TIMESTAMPDIFF(month, cats.birth, CURDATE()) as age ,
-//               TIMESTAMPDIFF(day, cats.last_parasite, CURDATE()) as parasite,
-//               cats.vaccine, users.id as user_id,cats.id,cats.name,
-//               cats.birth,cats.photo,races.title as race,
-//                    ( 6371 * acos( cos( radians($user->latitude) )
-//                    * cos( radians( users.latitude ) )
-//                    * cos( radians( users.longitude ) - radians($user->longitude) )
-//                    + sin( radians($user->latitude) ) * sin(radians(users.latitude)))) AS distance
-//                FROM cats
-//                LEFT JOIN users ON users.id = cats.user_id
-//                LEFT JOIN races ON races.id = cats.race_id
-//                WHERE cats.status=1 AND users.status=1 AND cats.user_id!=$user->id";
-//        if ($request->sex == 1) {
-//            $query = $query . "AND cats.sex = 2 AND TIMESTAMPDIFF(month, cats.birth, CURDATE()) >= 12";
-//            $query = $query . " AND TIMESTAMPDIFF(month, cats.birth, CURDATE()) <= 96";
-//        } else {
-//            $query = $query . "AND cats.sex = 1 AND TIMESTAMPDIFF(month, cats.birth, CURDATE()) >= 6";
-//            $query = $query . " AND TIMESTAMPDIFF(month, cats.birth, CURDATE()) <= 96";
-//        }
-//        $query = $query . " AND TIMESTAMPDIFF(day, cats.last_parasite, CURDATE()) >= 7";
-//        $query = $query . " AND TIMESTAMPDIFF(day, cats.last_parasite, CURDATE()) <= 90";
-//        $query = $query . " having distance <= " . $request->distance;
-//
-//        Log::create(['log'=>$query]);
-//        $res = DB::select(DB::raw($query));
+        $query = "SELECT  TIMESTAMPDIFF(month, cats.birth, CURDATE()) as age ,
+               TIMESTAMPDIFF(day, cats.last_parasite, CURDATE()) as parasite,
+               cats.vaccine, users.id as user_id,cats.id,cats.name,
+               cats.birth,cats.photo,races.title as race,
+                    ( 6371 * acos( cos( radians($user->latitude) )
+                    * cos( radians( users.latitude ) )
+                    * cos( radians( users.longitude ) - radians($user->longitude) )
+                    + sin( radians($user->latitude) ) * sin(radians(users.latitude)))) AS distance
+                FROM cats
+                LEFT JOIN users ON users.id = cats.user_id
+                LEFT JOIN races ON races.id = cats.race_id
+                WHERE cats.status=1 AND users.status=1 AND cats.user_id!=$user->id";
+        if ($request->sex == 1) {
+            $query = $query . " AND cats.sex = 2 AND TIMESTAMPDIFF(month, cats.birth, CURDATE()) >= 12";
+            $query = $query . " AND TIMESTAMPDIFF(month, cats.birth, CURDATE()) <= 96";
+        } else {
+            $query = $query . " AND cats.sex = 1 AND TIMESTAMPDIFF(month, cats.birth, CURDATE()) >= 6";
+            $query = $query . " AND TIMESTAMPDIFF(month, cats.birth, CURDATE()) <= 96";
+        }
+        $query = $query . " AND TIMESTAMPDIFF(day, cats.last_parasite, CURDATE()) >= 7";
+        $query = $query . " AND TIMESTAMPDIFF(day, cats.last_parasite, CURDATE()) <= 90";
+        $query = $query . " having distance <= " . $request->distance;
 
-//        Log::create(['log'=>$query]);
+        Log::create(['log'=>$query]);
+        $res = DB::select(DB::raw($query));
 
-//        Log::create(['log'=>json_encode($res)]);
+        Log::create(['log'=>$query]);
+
+        Log::create(['log'=>json_encode($res)]);
         //profile matching
-        $res=[];
         foreach ($res as $r) {
             if ($r->parasite >= 7 && $r->parasite <= 23) {
                 $par = 5;
