@@ -113,7 +113,7 @@ class MateController extends Controller
 
     public function catSearch(Request $request)
     {
-        $user = User::find(1);
+        $user = User::find($request->user_id);
         $query = "SELECT  TIMESTAMPDIFF(month, cats.birth, CURDATE()) as age ,TIMESTAMPDIFF(day, cats.last_parasite, CURDATE()) as parasite, cats.vaccine, users.id as user_id,cats.id,cats.name,cats.birth,cats.photo,races.title as race,
                     ( 6371 * acos( cos( radians($user->latitude) )
                     * cos( radians( users.latitude ) )
@@ -136,6 +136,7 @@ class MateController extends Controller
         $query = $query . " and TIMESTAMPDIFF(day, cats.last_parasite, CURDATE()) >= 7";
         $query = $query . " and TIMESTAMPDIFF(day, cats.last_parasite, CURDATE()) <= 90";
         $query = $query . " having distance <= " .$request->distance;
+
         $res = DB::select(DB::raw($query));
         foreach ($res as $r) {
             if ($r->parasite >= 7 && $r->parasite <= 23) {
