@@ -213,7 +213,7 @@ class AuthController extends Controller
     }
 
     public function updateStatus(Request $request){
-        $user=User::find($request->id);
+        $user=User::findOrFail($request->id);
         Log::create(['log'=>$request->status,]);
         $user->update([
             'status' => $request->status,
