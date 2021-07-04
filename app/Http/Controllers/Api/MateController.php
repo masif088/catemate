@@ -141,6 +141,10 @@ class MateController extends Controller
         $query = $query . " AND TIMESTAMPDIFF(day, cats.last_parasite, CURDATE()) <= 90";
         $query = $query . " having distance <= " . $request->distance;
         $res = DB::select(DB::raw($query));
+
+        Log::create(['log'=>$query]);
+
+        Log::create(['log'=>json_encode($res)]);
         //profile matching
         foreach ($res as $r) {
             if ($r->parasite >= 7 && $r->parasite <= 23) {
