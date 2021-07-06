@@ -116,17 +116,20 @@ class CatController extends Controller
     public function catAddPhoto(Request $request)
     {
         $file = $request->file('file');
+        Log::create(['log'=>'cek sini']);
         $filename = Str::slug(str_replace('"', '', $request->cat_id) . '-' . date('Hms') . rand(100)) . '.' . $request->file('file')->getClientOriginalExtension();
         Storage::disk('local')->put('public/cat_photo/' . $filename, $file, 'public');
+        Log::create(['log'=>'cek b']);
         CatPhoto::create([
             'cat_id' => str_replace('"', '', $request->cat_id),
             'path' => $filename
         ]);
+        Log::create(['log'=>'cek c']);
         $response = [
             'status' => 'success',
             'msg' => 'Berhasil menambahkan foto kucing',
         ];
-        return response()->json($response, 200);
+        return $response;
     }
     public function catRemove(Request $request){
         Cat::find($request->cat_id)->delete();
