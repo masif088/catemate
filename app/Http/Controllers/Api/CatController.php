@@ -125,7 +125,7 @@ class CatController extends Controller
         Log::create(['log'=>'cek b']);
         CatPhoto::create([
             'cat_id' => str_replace('"', '', $request->cat_id),
-            'path' => $filename
+            'path' => 'cat_photo/' . $filename
         ]);
         Log::create(['log'=>'cek c']);
         $response = [
