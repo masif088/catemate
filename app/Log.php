@@ -6,5 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Log extends Model
 {
-    protected $guarded=[];
+    protected $fillable=['log','created_at','updated_at'];
+    protected $table='logs';
 }
