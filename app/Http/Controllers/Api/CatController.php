@@ -121,6 +121,7 @@ class CatController extends Controller
         $filename = str_replace('"', '', $request->cat_id) . '-' . date('Hms') . rand(100) . '.' . $request->file('file')->getClientOriginalExtension();
 //        Storage::disk('local')->put('public/cat_photo/' . $filename, $file, 'public');
 //        $file = $request->file('file');
+        Log::create(['log'=>'cek sini']);
 //        $filename = Str::slug($cat->name . '-' . date('Hms')) . '.' . $request->file('file')->getClientOriginalExtension();
         Storage::disk('local')->put('public/cat_photo/' . $filename, file_get_contents($file));
         Log::create(['log'=>'cek sini']);
