@@ -45,7 +45,7 @@ Route::post('cat/update/status','Api\CatController@catUpdateStatus');
 Route::post('cat/update/photo','Api\CatController@catUpdatePhoto');
 Route::post('cat/remove/photo','Api\CatController@catRemovePhoto');
 Route::post('cat/add/photo','Api\CatController@catAddPhoto');
-Route::post('cat/add/photo','Api\CatController@chatList');
+//Route::post('cat/add/photo','Api\CatController@chatList');
 Route::post('cat/remove','Api\CatController@catRemove');
 
 Route::get('cat/me/love/{cat}','Api\MateController@catLove');
