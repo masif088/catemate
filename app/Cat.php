@@ -68,4 +68,7 @@ class Cat extends Model
     {
         return $this->hasMany('App\Mating', 'cat_id_2');
     }
+    public function catPhotos(){
+        return $this->hasMany('App\CatPhoto','cat_id');
+    }
 }
