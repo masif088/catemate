@@ -13,7 +13,7 @@ class MateController extends Controller
 {
     public function catLove($id)
     {
-        return Mating::with('cat_2')->where('status_mate', '=', '4')
+        return Mating::with('cat_2.race')->where('status_mate', '=', '3')
             ->where('cat_id_1', '=', $id)
             ->get();
     }
@@ -229,7 +229,7 @@ class MateController extends Controller
         ]);
         return [
             'status' => 'success',
-            'msg' => "berhasil melakukan aksi",
+            'msg' => "Berhasil melakukan aksi",
             'errors' => null,
         ];
     }
