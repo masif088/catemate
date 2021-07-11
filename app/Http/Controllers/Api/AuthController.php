@@ -90,7 +90,6 @@ class AuthController extends Controller
         }
         $token = Str::random(60);
         $user->update(['remember_token' => $token]);
-//        $tokenResult = $user->remember_token;
         $respon = [
             'status' => 'success',
             'msg' => 'Berhasil masuk',

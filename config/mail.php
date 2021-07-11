@@ -15,7 +15,13 @@ return [
     |            "sparkpost", "log", "array"
     |
     */
-
+    'stream' => [
+        'ssl' => [
+            'allow_self_signed' => true,
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+        ],
+    ],
     'driver' => env('MAIL_DRIVER', 'smtp'),
 
     /*
