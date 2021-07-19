@@ -30,6 +30,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('login','Api\AuthController@login');
+Route::post('password/reset','Api\AuthController@sendResetLinkEmail');
 Route::post('register','Api\AuthController@register');
 Route::post('check/login','Api\AuthController@checkLogin');
 Route::post('logout','Api\AuthController@logout');
