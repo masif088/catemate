@@ -18,7 +18,7 @@ class CatController extends Controller
 {
     public function catMeDetail($user_id, $id)
     {
-        return Cat::with('race','catPhotos')->find($id);
+        return Cat::with('race','catPhotos','user')->find($id);
     }
 
     public function catMe($user_id)
