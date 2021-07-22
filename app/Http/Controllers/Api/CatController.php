@@ -57,7 +57,7 @@ class CatController extends Controller
         Cat::find($request->cat_id)
             ->update([
                 'name' => $request->name,
-//                'vaccine' => $request->vaccine,
+                'vaccine' => $request->vaccine,
                 'last_parasite' => $request->last_parasite,
                 'last_vaccine' => $request->last_vaccine,
             ]);
